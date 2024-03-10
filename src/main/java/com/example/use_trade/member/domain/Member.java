@@ -1,9 +1,15 @@
 package com.example.use_trade.member.domain;
 
+import com.example.use_trade.interest.domain.Interest;
+import com.example.use_trade.product.domain.Product;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "member")
@@ -39,6 +45,13 @@ public class Member {
     @Column(name = "profile")
     public String profile;
 
+    @OneToMany(mappedBy = "seller")
+    private List<Product> products = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Interest> interests = new ArrayList<>();
+
+    @Builder
     public Member(Long id, String email, String password, String memberName, String nickname, String phoneNumber, MemberRole memberRole) {
         this.id = id;
         this.email = email;

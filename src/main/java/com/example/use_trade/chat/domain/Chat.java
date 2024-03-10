@@ -16,6 +16,7 @@ public class Chat {
     private Long id;
 
     @Column(name = "type")
+    @Enumerated(EnumType.STRING)
     private ChatType type;
 
     @Column(name = "profile")
@@ -27,4 +28,7 @@ public class Chat {
     @Column(name = "content")
     private String content;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "chat_room_id")
+    private ChatRoom chatRoom;
 }

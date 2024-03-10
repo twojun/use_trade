@@ -1,11 +1,17 @@
 package com.example.use_trade.product.domain;
 
+import com.example.use_trade.chat.domain.ChatRoom;
+import com.example.use_trade.interest.domain.Interest;
+import com.example.use_trade.member.domain.Member;
+import com.example.use_trade.product_image.domain.ProductImage;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -47,4 +53,17 @@ public class Product {
 
     @Column(name = "thumbnail")
     private String thumbnail;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member seller;
+
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<ChatRoom> chatRooms = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Interest> interests = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<ProductImage> productImages = new ArrayList<>();
 }

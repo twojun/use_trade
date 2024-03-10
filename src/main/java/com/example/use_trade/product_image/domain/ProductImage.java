@@ -1,6 +1,5 @@
-package com.example.use_trade.interest.domain;
+package com.example.use_trade.product_image.domain;
 
-import com.example.use_trade.member.domain.Member;
 import com.example.use_trade.product.domain.Product;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -8,22 +7,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "interest")
+@Table(name = "product_image")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Interest {
+public class ProductImage {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "interest_id")
+    @Column(name = "product_image_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @Column(name = "url")
+    private String url;
+
+    @Column(name = "filename")
+    private String filename;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
-
-
 }
