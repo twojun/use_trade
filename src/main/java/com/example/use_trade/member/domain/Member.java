@@ -2,14 +2,17 @@ package com.example.use_trade.member.domain;
 
 import com.example.use_trade.interest.domain.Interest;
 import com.example.use_trade.product.domain.Product;
+import com.example.use_trade.product.domain.ProductStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "member")
@@ -61,5 +64,49 @@ public class Member {
         this.phoneNumber = phoneNumber;
         this.memberRole = memberRole;
         this.profile = MemberImageInit.INIT_URL;
+    }
+
+    // 닉네임 업데이트
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    // 프로필 업데이트
+    public void updateProfile(String profile) {
+        this.profile = profile;
+    }
+
+    // 비밀번호 암호화
+    public Member encrpytPassword(PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(password);
+        return this;
+    }
+
+    // 관심 리스트에서 상품 정보 추출
+    public List<Product> getProductByInterest() {
+        return this.getInterests().stream()
+                .map(item -> item.getProduct())
+                .collect(Collectors.toList());
+    }
+
+    // 관심 목록 상태별 상품 정보 추출
+    public List<Product> getInterestStatus(ProductStatus productStatus) {
+        if (productStatus == null) {
+            return getProductByInterest();
+        }
+        return interests.stream()
+                .filter(item -> item.getProduct().getStatus() == productStatus)
+                .map(item -> item.getProduct())
+                .collect(Collectors.toList());
+    }
+
+    // 상품 상태별 상품 정보 추출
+    public List<Product> getProductByStatus(ProductStatus productStatus) {
+        if (productStatus == null) {
+            return products;
+        }
+        return products.stream()
+                .filter(item -> item.getStatus() == productStatus)
+                .collect(Collectors.toList());
     }
 }

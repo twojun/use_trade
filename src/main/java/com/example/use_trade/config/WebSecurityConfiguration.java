@@ -2,6 +2,8 @@ package com.example.use_trade.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class WebSecurityConfiguration {
@@ -11,5 +13,10 @@ public class WebSecurityConfiguration {
         return web -> web
                 .ignoring()
                 .requestMatchers("/", "/h2-console/**", "/css/**", "/js/**", "/img/**", "/font/**");
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

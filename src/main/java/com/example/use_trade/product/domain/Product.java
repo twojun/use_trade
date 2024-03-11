@@ -35,9 +35,9 @@ public class Product {
     @Column(name = "price")
     private Integer price;
 
-    @Column(name = "state")
+    @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private ProductStatus state;
+    private ProductStatus status;
 
     @Column(name = "interest_count")
     private Integer interestCount;
