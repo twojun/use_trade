@@ -77,7 +77,7 @@ public class Member {
     }
 
     // 비밀번호 암호화
-    public Member encrpytPassword(PasswordEncoder passwordEncoder) {
+    public Member encryptPassword(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(password);
         return this;
     }
